@@ -72,7 +72,6 @@ DAT.Globe = function(container, opts) {
 	var overRenderer;
 
 	var curZoomSpeed = 0;
-	var zoomSpeed = 50;
 
 	var mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 },
 		mouseMoveRay = { x: 0, y: 0 }, mouseDownRay = { x: 0, y: 0 };
@@ -150,8 +149,6 @@ DAT.Globe = function(container, opts) {
 		renderer.setSize(w, h);
 
 		renderer.domElement.style.position = 'absolute';
-
-		container.appendChild(renderer.domElement);
 
 		container.addEventListener('mousedown', onMouseDown, false);
 
@@ -251,6 +248,8 @@ DAT.Globe = function(container, opts) {
 					// store index for user selection
 					locations.meshes[i].index = i;
 				}
+				// display renderer
+				container.appendChild(renderer.domElement);
 				// start animation
 				animate();
 			}

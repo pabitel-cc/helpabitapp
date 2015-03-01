@@ -239,9 +239,8 @@ DAT.Globe = function(container, opts) {
 					locations.meshes[i].position.x = (radius + 5) * Math.sin(phi) * Math.cos(theta);
 					locations.meshes[i].position.y = (radius + 5) * Math.cos(phi);
 					locations.meshes[i].position.z = (radius + 5) * Math.sin(phi) * Math.sin(theta);
-					// bit of a kluge for now
-					if (locations.lng[i] > 0 && locations.lng[i] < 45) {
-						locations.meshes[i].rotation.y -= 30;
+					if (locations.lng[i] > 0) {
+						locations.meshes[i].rotation.y -= 30 * Math.ceil(locations.lng[i]/45);
 					}
 					// add location circle
 					scene.add(locations.meshes[i]);

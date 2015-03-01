@@ -1,0 +1,228 @@
+<!--
+	Help a Bit WebGL app
+	derived from http://dataarts.github.com/dat.globe
+	adapted by Colin Cohen (pabitel)
+	pabitel@yahoo.com
+	donations: 1PSFuV3ii261Z74vS1FWTKrx7n1hB1yyik
+	
+	Licensed under the Apache License, Version 2.0 (the 'License');
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Help a Bit</title>
+		<meta charset="utf-8">
+		<!-- modal dialogs stylesheet -->
+		<link href="third-party/jsmodal-light.css" rel="stylesheet" type="text/css" />
+		<style type="text/css">
+		
+			html {
+				height: 100%;
+			}
+			
+			body {
+				margin: 0;
+				padding: 0;
+				background: #000000 url('images/loading.gif') center center no-repeat;
+				color: #ffffff;
+				font-family: sans-serif;
+				font-size: 13px;
+				line-height: 20px;
+				height: 100%;
+			}
+
+			#info {
+				font-size: 11px;
+				position: absolute;
+				bottom: 5px;
+				background-color: rgba(0,0,0,0.8);
+				border-radius: 3px;
+				right: 10px;
+				padding: 10px;
+			}
+
+			a {
+				color: #aaa;
+				text-decoration: none;
+			}
+			
+			a:hover {
+				text-decoration: underline;
+			}
+
+			bull {
+				padding: 0 5px;
+				color: #555;
+			}
+
+			#title {
+				position: absolute;
+				text-align: right;
+				top: 20px;
+				width: 180px;
+				height: 140px;
+				left: 20px;
+				background-color: rgba(0,0,0,0.2);
+				border-radius: 3px;
+				font: 10px Georgia;
+				padding: 10px;
+			}
+			
+			#ce span {
+				position: absolute;
+				font-size: 10px;
+				font-weight: bold;
+				bottom: 0;
+			}
+
+			#ce {
+				width: 150px;
+				height: 110px;
+				display: block;
+				position: absolute;
+				bottom: 15px;
+				left: 20px;
+				background: url('images/tip.png');
+				background-repeat: no-repeat;
+			}
+	  
+			/* mobile style sheet */
+			@media only screen and (max-width: 480px) {
+	  
+				body {
+					margin: 0;
+					padding: 0;
+					background: #000000 url('images/loading.gif') center center no-repeat;
+					color: #ffffff;
+					font-family: sans-serif;
+					font-size: 13px;
+					line-height: 20px;
+					height: 100%;
+				}
+	  
+				#info {
+					font-size: 75%;
+					width: 110px;
+					position: absolute;
+					bottom: 5px;
+					background-color: rgba(0,0,0,0.8);
+					border-radius: 3px;
+					right: 10px;
+					padding: 0px;
+				}
+
+				#title {
+					position: absolute;
+					text-align: right;
+					top: 5px;
+					width: 135px;
+					height: 93px;
+					left: 5px;
+					font: 8px Georgia;
+					padding: 0px;
+				}
+		
+				#title img {
+					display: block;
+					margin-left: auto;
+					margin-right: auto;
+					width: 75%;
+					height: auto;
+				}
+		
+				#ce span {
+					position: absolute;
+					text-align: right;
+					font-size: 75%;
+					font-weight: bold;
+					bottom: 0;
+				}
+
+				#ce {
+					width: 113px;
+					height: 85px;
+					display: block;
+					position: absolute;
+					bottom: 5px;
+					left: 10px;
+					background: url('images/tip.png');
+					background-size: 114px 70px;
+					background-repeat: no-repeat;
+				}
+	  
+			}
+
+		</style>
+	</head>
+	<body>
+
+	<div id="container"></div>
+
+	<div id="info">
+		<strong><a href="https://github.com/pabitel-cc/helpabitapp">source</a></strong> <span class="bull">&bull;</span> created by pabitel <span class="bull">&bull;</span> <a href="mailto:pabitel@yahoo.com">contact</a>
+	</div>
+
+	<div id="title">
+		<img src="images/helpabit.png" alt="Help a Bit"><br><b>(BETA)</b>
+	</div>
+
+	<a id="ce" href="bitcoin:1PSFuV3ii261Z74vS1FWTKrx7n1hB1yyik">
+		<span><b>1PSFuV3ii261Z74vS1FWTKrx7n1hB1yyik</b></span>
+	</a>
+
+	<!-- WebGL detector -->
+	<script type="text/javascript" src="third-party/Detector.js"></script>
+	<!-- Three.js -->
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
+	<!-- random color generator -->
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/randomcolor/0.1.1/randomColor.min.js"></script>
+	<!-- cross-platform Javascript animation -->
+	<script type="text/javascript" src="third-party/requestAnimationFrame.js"></script>
+	<!-- modal dialogs -->
+	<script type="text/javascript" src="third-party/jsmodal-1.0d.js"></script>
+	<!-- globe creation data -->
+	<script type="text/javascript" src="//dfeb7629b61b04aa78e60a98224f6e2583b793ad.googledrive.com/host/0B3TvHbZBlvFMRHhWaE9BZ1ZCVlk/world.min.js"></script>
+	<!-- mesh triangulation -->
+	<script type="text/javascript" src="third-party/spherize.js"></script>
+	<!-- globe object -->
+	<script type="text/javascript" src="globe.js"></script>
+	<!-- object for holding location markers -->
+	<script type="text/javascript" src="locations.js"></script>
+	<!-- main() -->
+	<script type="text/javascript">
+
+		if(!Detector.webgl) {
+			Detector.addGetWebGLMessage();
+		} 
+		else {
+			var container = document.getElementById('container');
+			// create instance of globe object
+			var globe = new DAT.Globe(container);
+	  
+			// load charities JSON file
+			xhr = new XMLHttpRequest();
+			xhr.open('GET', 'json/charities.json', true);
+			xhr.onreadystatechange = function(e) {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						var data = JSON.parse(xhr.responseText);
+						window.data = data;
+						for (i = 0; i < data.length; i++) {
+							//create location markers
+							globe.addData(data[i], data.length);
+						}
+						// clear loading marker
+						document.body.style.backgroundImage = 'none';
+					}
+				}
+			};
+			xhr.send(null);
+		}
+
+	</script>
+	</body>
+</html>

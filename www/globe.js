@@ -59,7 +59,7 @@ DAT.Globe = function(container, opts) {
 				'void main() {',
 					'float i = pow(clamp(dot( vNormal, normalize(vec3( 0.0, 2.0, 1.0 ))), 0.0, 1.0), 1.5);',
 					'float i2 = 0.8-pow(clamp(dot( vNormal, normalize(vec3( 0.0, -0.0, 1.0 ))), 0.0, 1.0), 1.7);',
-					'gl_FragColor = vec4(0.75, 0.75, 1, 1.0);',
+					'gl_FragColor = vec4(0.75, 0.75, 1, 0.9);',
 					'gl_FragColor.a = 1.0;',
 				'}'
 			].join('\n')
@@ -130,7 +130,7 @@ DAT.Globe = function(container, opts) {
         } );
 
 		mesh = new THREE.Mesh(sphereGeometry, material);
-		mesh.scale.set( 1.09, 1.09, 1.09);
+		mesh.scale.set( 1.1, 1.1, 1.1);
 		scene.add(mesh);
 
 		// create land masses
